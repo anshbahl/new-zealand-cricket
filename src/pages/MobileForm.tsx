@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ArrowLeft, Save, MapPin, User, School, Clock, Users, Activity, Settings } from "lucide-react";
+import { ArrowLeft, Save, MapPin, User, School, Users, Settings, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { FormField } from "@/components/form/FormField";
 import { FormSection } from "@/components/form/FormSection";
@@ -69,27 +69,38 @@ const MobileForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-nzc-blue via-blue-600 to-nzc-green">
-      <div className="container mx-auto px-4 py-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <Button
-            variant="ghost"
-            onClick={() => navigate("/analytics")}
-            className="text-white hover:bg-white/20 flex items-center gap-2"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            Back to Dashboard
-          </Button>
-          <h1 className="text-2xl font-bold text-white">Session Data Entry</h1>
-          <div className="w-24"></div> {/* Spacer for centering */}
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-slate-900 text-white">
+        <div className="container mx-auto px-6 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
+                onClick={() => navigate("/analytics")}
+                className="text-white hover:bg-slate-800 p-2"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                  <Target className="w-5 h-5 text-slate-900" />
+                </div>
+                <h1 className="text-xl font-bold">Session Data Entry</h1>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        {/* Main Form Card */}
-        <Card className="bg-white/98 backdrop-blur-sm shadow-2xl border-0 max-w-4xl mx-auto">
-          <CardHeader className="bg-gradient-to-r from-nzc-blue to-nzc-green text-white rounded-t-lg">
-            <CardTitle className="text-center text-xl font-bold flex items-center justify-center gap-2">
-              <Activity className="w-6 h-6" />
+      {/* Main Content */}
+      <div className="container mx-auto px-6 py-8">
+        <Card className="max-w-4xl mx-auto">
+          <CardHeader className="bg-white border-b border-gray-200">
+            <CardTitle className="text-xl font-semibold text-gray-900 flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <User className="w-4 h-4 text-blue-600" />
+              </div>
               Cricket Session Information
             </CardTitle>
           </CardHeader>
@@ -97,13 +108,13 @@ const MobileForm = () => {
           <CardContent className="p-8">
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* Activator Information */}
-              <FormSection title="Activator Information" icon={<User className="w-5 h-5 text-nzc-blue" />}>
+              <FormSection title="Activator Information" icon={<User className="w-5 h-5 text-blue-600" />}>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <FormField label="Activator Name" required>
                     <Input
                       value={formData.activatorName}
                       onChange={(e) => setFormData(prev => ({ ...prev, activatorName: e.target.value }))}
-                      className="h-12 border-2 focus:border-nzc-blue transition-colors"
+                      className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                       placeholder="Enter your name"
                       required
                     />
@@ -111,7 +122,7 @@ const MobileForm = () => {
 
                   <FormField label="Association" required>
                     <Select onValueChange={(value) => setFormData(prev => ({ ...prev, association: value }))}>
-                      <SelectTrigger className="h-12 border-2 focus:border-nzc-blue">
+                      <SelectTrigger className="h-11 border-gray-300 focus:border-blue-500">
                         <SelectValue placeholder="Select your association" />
                       </SelectTrigger>
                       <SelectContent>
@@ -128,13 +139,13 @@ const MobileForm = () => {
               </FormSection>
 
               {/* School & Session Details */}
-              <FormSection title="School & Session Details" icon={<School className="w-5 h-5 text-nzc-green" />}>
+              <FormSection title="School & Session Details" icon={<School className="w-5 h-5 text-green-600" />}>
                 <FormField label="School" required>
                   <Input
                     value={formData.school}
                     onChange={(e) => setFormData(prev => ({ ...prev, school: e.target.value }))}
                     placeholder="Start typing school name..."
-                    className="h-12 border-2 focus:border-nzc-green transition-colors"
+                    className="h-11 border-gray-300 focus:border-green-500 focus:ring-green-500"
                     required
                   />
                 </FormField>
@@ -145,7 +156,7 @@ const MobileForm = () => {
                       type="date"
                       value={formData.date}
                       onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
-                      className="h-12 border-2 focus:border-nzc-blue transition-colors"
+                      className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
                   </FormField>
@@ -155,14 +166,14 @@ const MobileForm = () => {
                       type="time"
                       value={formData.time}
                       onChange={(e) => setFormData(prev => ({ ...prev, time: e.target.value }))}
-                      className="h-12 border-2 focus:border-nzc-blue transition-colors"
+                      className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
                   </FormField>
 
                   <FormField label="Class Period">
                     <Select onValueChange={(value) => setFormData(prev => ({ ...prev, classPeriod: value }))}>
-                      <SelectTrigger className="h-12 border-2 focus:border-nzc-blue">
+                      <SelectTrigger className="h-11 border-gray-300 focus:border-blue-500">
                         <SelectValue placeholder="Select period" />
                       </SelectTrigger>
                       <SelectContent>
@@ -180,7 +191,7 @@ const MobileForm = () => {
               </FormSection>
 
               {/* Participants */}
-              <FormSection title="Participants" icon={<Users className="w-5 h-5 text-nzc-green" />}>
+              <FormSection title="Participants" icon={<Users className="w-5 h-5 text-purple-600" />}>
                 <FormField label="Year Groups (select all that apply)" required>
                   <YearGroupSelector 
                     selectedYears={formData.yearGroups}
@@ -194,7 +205,7 @@ const MobileForm = () => {
                       type="number"
                       value={formData.maleStudents}
                       onChange={(e) => setFormData(prev => ({ ...prev, maleStudents: e.target.value }))}
-                      className="h-12 border-2 focus:border-nzc-blue transition-colors"
+                      className="h-11 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
                       min="0"
                       placeholder="0"
                       required
@@ -206,7 +217,7 @@ const MobileForm = () => {
                       type="number"
                       value={formData.femaleStudents}
                       onChange={(e) => setFormData(prev => ({ ...prev, femaleStudents: e.target.value }))}
-                      className="h-12 border-2 focus:border-nzc-blue transition-colors"
+                      className="h-11 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
                       min="0"
                       placeholder="0"
                       required
@@ -216,11 +227,11 @@ const MobileForm = () => {
               </FormSection>
 
               {/* Session Configuration */}
-              <FormSection title="Session Configuration" icon={<Settings className="w-5 h-5 text-nzc-blue" />}>
+              <FormSection title="Session Configuration" icon={<Settings className="w-5 h-5 text-orange-600" />}>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <FormField label="Session Length" required>
                     <Select onValueChange={(value) => setFormData(prev => ({ ...prev, sessionLength: value }))}>
-                      <SelectTrigger className="h-12 border-2 focus:border-nzc-green">
+                      <SelectTrigger className="h-11 border-gray-300 focus:border-orange-500">
                         <SelectValue placeholder="Select duration" />
                       </SelectTrigger>
                       <SelectContent>
@@ -239,7 +250,7 @@ const MobileForm = () => {
 
                   <FormField label="Session Type" required>
                     <Select onValueChange={(value) => setFormData(prev => ({ ...prev, sessionType: value }))}>
-                      <SelectTrigger className="h-12 border-2 focus:border-nzc-green">
+                      <SelectTrigger className="h-11 border-gray-300 focus:border-orange-500">
                         <SelectValue placeholder="Select session type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -256,14 +267,14 @@ const MobileForm = () => {
                   <RadioGroup
                     value={formData.teacherEngagement}
                     onValueChange={(value) => setFormData(prev => ({ ...prev, teacherEngagement: value }))}
-                    className="flex flex-col sm:flex-row gap-4"
+                    className="grid grid-cols-1 sm:grid-cols-3 gap-4"
                   >
                     {[
                       { value: "high", label: "High", desc: "Actively participating" },
                       { value: "moderate", label: "Moderate", desc: "Observing and helping" },
                       { value: "none", label: "None", desc: "Not involved" }
                     ].map((option) => (
-                      <div key={option.value} className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors flex-1">
+                      <div key={option.value} className="flex items-center space-x-3 p-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
                         <RadioGroupItem value={option.value} id={option.value} />
                         <div className="flex flex-col">
                           <Label htmlFor={option.value} className="font-medium cursor-pointer">{option.label}</Label>
@@ -275,20 +286,20 @@ const MobileForm = () => {
                 </FormField>
               </FormSection>
 
-              {/* Location & Submit */}
+              {/* Actions */}
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-200">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={getGeolocation}
-                  className="flex items-center gap-2 h-12 px-6 border-2 hover:border-nzc-blue hover:text-nzc-blue transition-colors"
+                  className="flex items-center gap-2 h-11 px-6 border-gray-300 hover:border-blue-500 hover:text-blue-600"
                 >
-                  <MapPin className="w-5 h-5" />
+                  <MapPin className="w-4 h-4" />
                   <span>Tag Location</span>
                 </Button>
                 
                 {formData.geolocation && (
-                  <span className="flex items-center gap-2 text-nzc-green font-medium">
+                  <span className="flex items-center gap-2 text-green-600 font-medium">
                     <MapPin className="w-4 h-4" />
                     Location captured
                   </span>
@@ -296,9 +307,9 @@ const MobileForm = () => {
 
                 <Button 
                   type="submit" 
-                  className="bg-gradient-to-r from-nzc-green to-green-600 hover:from-green-600 hover:to-nzc-green text-white h-12 px-8 font-semibold shadow-lg transition-all duration-300 transform hover:scale-105"
+                  className="bg-blue-600 hover:bg-blue-700 text-white h-11 px-8 font-semibold"
                 >
-                  <Save className="w-5 h-5 mr-2" />
+                  <Save className="w-4 h-4 mr-2" />
                   Submit Session Data
                 </Button>
               </div>
