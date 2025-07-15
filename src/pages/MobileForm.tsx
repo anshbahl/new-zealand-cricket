@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,7 +35,7 @@ const MobileForm = () => {
       title: "Session data submitted successfully!",
       description: "Your participation data has been recorded.",
     });
-    navigate("/");
+    navigate("/analytics");
   };
 
   const getGeolocation = () => {
@@ -72,11 +71,11 @@ const MobileForm = () => {
         <div className="flex items-center mb-6">
           <Button
             variant="ghost"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/analytics")}
             className="text-white hover:bg-white/20"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
-            Back
+            Back to Dashboard
           </Button>
           <h1 className="text-xl font-bold text-white ml-4">Session Data Entry</h1>
         </div>
