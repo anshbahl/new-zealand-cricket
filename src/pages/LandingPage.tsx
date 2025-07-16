@@ -95,12 +95,12 @@ const LandingPage = () => {
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-nzc-blue to-nzc-green bg-clip-text text-transparent">
                   NZC Participation Platform
                 </h1>
-                <p className="text-nzc-dark-gray/70 text-sm font-medium">Empowering cricket activators nationwide</p>
+                <p className="text-muted-foreground text-sm font-medium">Empowering cricket activators nationwide</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
               {achievements.map((achievement, index) => (
-                <div key={index} className="hidden lg:flex items-center gap-2 text-xs text-nzc-dark-gray/60">
+                <div key={index} className="hidden lg:flex items-center gap-2 text-xs text-muted-foreground">
                   <achievement.icon className="w-4 h-4 text-nzc-green" />
                   <span className="font-medium">{achievement.label}</span>
                 </div>
@@ -126,10 +126,10 @@ const LandingPage = () => {
             <Badge variant="outline" className="mb-8 border-nzc-blue/30 text-nzc-blue bg-nzc-light-blue/20 text-sm px-4 py-2">
               ✨ Welcome to the Future of Cricket Data
             </Badge>
-            <h2 className="text-6xl font-bold text-nzc-dark-blue mb-8 leading-tight">
+            <h2 className="text-6xl font-bold text-foreground mb-8 leading-tight">
               Welcome, <span className="bg-gradient-to-r from-nzc-blue via-purple-600 to-nzc-green bg-clip-text text-transparent">Activator</span>
             </h2>
-            <p className="text-xl text-nzc-dark-gray/80 max-w-4xl mx-auto leading-relaxed mb-8">
+            <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
               Transform your cricket participation management with our cutting-edge platform. 
               Record entries, analyze trends, and drive program success with intelligence and precision.
             </p>
@@ -137,8 +137,8 @@ const LandingPage = () => {
               {achievements.map((achievement, index) => (
                 <div key={index} className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-sm border border-nzc-blue/10">
                   <achievement.icon className="w-4 h-4 text-nzc-green" />
-                  <span className="text-sm font-medium text-nzc-dark-blue">{achievement.label}</span>
-                  <span className="text-xs text-nzc-dark-gray/60">• {achievement.desc}</span>
+                  <span className="text-sm font-medium text-foreground">{achievement.label}</span>
+                  <span className="text-xs text-muted-foreground">• {achievement.desc}</span>
                 </div>
               ))}
             </div>
@@ -160,8 +160,8 @@ const LandingPage = () => {
                   </Badge>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-nzc-dark-gray/70 mb-2">{stat.label}</p>
-                  <p className="text-4xl font-bold text-nzc-dark-blue">{stat.value}</p>
+                  <p className="text-sm font-semibold text-muted-foreground mb-2">{stat.label}</p>
+                  <p className="text-4xl font-bold text-foreground">{stat.value}</p>
                 </div>
               </CardContent>
             </Card>
@@ -171,8 +171,8 @@ const LandingPage = () => {
         {/* Enhanced Quick Actions */}
         <div className="mb-20">
           <div className="text-center mb-12">
-            <h3 className="text-4xl font-bold text-nzc-dark-blue mb-6">Quick Actions</h3>
-            <p className="text-lg text-nzc-dark-gray/70 max-w-2xl mx-auto">Choose your next step to streamline your cricket participation management</p>
+            <h3 className="text-4xl font-bold text-foreground mb-6">Quick Actions</h3>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Choose your next step to streamline your cricket participation management</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {quickActions.map((action, index) => (
@@ -189,16 +189,16 @@ const LandingPage = () => {
                         <action.icon className="w-8 h-8 text-white" />
                       </div>
                       <div>
-                        <CardTitle className="text-2xl font-bold text-nzc-dark-blue group-hover:text-nzc-blue transition-colors">
+                        <CardTitle className="text-2xl font-bold text-foreground group-hover:text-nzc-blue transition-colors">
                           {action.title}
                         </CardTitle>
                       </div>
                     </div>
-                    <ChevronRight className="w-6 h-6 text-nzc-dark-gray/40 group-hover:text-nzc-blue group-hover:translate-x-2 transition-all" />
+                    <ChevronRight className="w-6 h-6 text-muted-foreground group-hover:text-nzc-blue group-hover:translate-x-2 transition-all" />
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <p className="text-nzc-dark-gray/70 mb-8 leading-relaxed text-lg">{action.description}</p>
+                  <p className="text-muted-foreground mb-8 leading-relaxed text-lg">{action.description}</p>
                   <Button 
                     onClick={action.action}
                     className={`w-full bg-gradient-to-r ${action.gradient} text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border-0 h-12 text-lg font-semibold`}
@@ -215,8 +215,8 @@ const LandingPage = () => {
         {/* Enhanced Features Section */}
         <div className="mb-20">
           <div className="text-center mb-12">
-            <h3 className="text-4xl font-bold text-nzc-dark-blue mb-6">Why Choose Our Platform</h3>
-            <p className="text-lg text-nzc-dark-gray/70 max-w-2xl mx-auto">Built for cricket activators, by cricket enthusiasts</p>
+            <h3 className="text-4xl font-bold text-foreground mb-6">Why Choose Our Platform</h3>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Built for cricket activators, by cricket enthusiasts</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {features.map((feature, index) => (
@@ -224,8 +224,8 @@ const LandingPage = () => {
                 <div className={`w-20 h-20 bg-gradient-to-br ${feature.gradient} rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-xl`}>
                   <feature.icon className="w-10 h-10 text-white" />
                 </div>
-                <h4 className="text-2xl font-bold text-nzc-dark-blue mb-4">{feature.title}</h4>
-                <p className="text-lg text-nzc-dark-gray/70 leading-relaxed">{feature.description}</p>
+                <h4 className="text-2xl font-bold text-foreground mb-4">{feature.title}</h4>
+                <p className="text-lg text-muted-foreground leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -234,7 +234,7 @@ const LandingPage = () => {
         {/* Enhanced Recent Activity */}
         <Card className="bg-white/95 backdrop-blur-sm border-0 shadow-2xl">
           <CardHeader className="bg-gradient-to-r from-nzc-light-blue/30 to-nzc-light-green/30 border-b border-nzc-blue/20">
-            <CardTitle className="text-3xl font-bold text-nzc-dark-blue flex items-center gap-4">
+            <CardTitle className="text-3xl font-bold text-foreground flex items-center gap-4">
               <div className="p-3 bg-nzc-blue/10 rounded-xl">
                 <TrendingUp className="w-7 h-7 text-nzc-blue" />
               </div>
@@ -250,12 +250,12 @@ const LandingPage = () => {
                 <div className="flex items-center gap-6">
                   <div className="w-4 h-4 bg-nzc-green rounded-full animate-pulse shadow-lg shadow-nzc-green/50"></div>
                   <div>
-                    <span className="font-bold text-nzc-dark-blue text-lg">New participation recorded</span>
-                    <p className="text-nzc-dark-gray/70 mt-1">Wellington Cricket Club - Junior Program</p>
+                    <span className="font-bold text-foreground text-lg">New participation recorded</span>
+                    <p className="text-muted-foreground mt-1">Wellington Cricket Club - Junior Program</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-sm text-nzc-dark-gray/60">2 minutes ago</span>
+                  <span className="text-sm text-muted-foreground">2 minutes ago</span>
                   <div className="w-3 h-3 bg-nzc-green rounded-full ml-auto mt-2 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
               </div>
@@ -263,12 +263,12 @@ const LandingPage = () => {
                 <div className="flex items-center gap-6">
                   <div className="w-4 h-4 bg-nzc-blue rounded-full shadow-lg shadow-nzc-blue/50"></div>
                   <div>
-                    <span className="font-bold text-nzc-dark-blue text-lg">Analytics report generated</span>
-                    <p className="text-nzc-dark-gray/70 mt-1">Monthly participation summary</p>
+                    <span className="font-bold text-foreground text-lg">Analytics report generated</span>
+                    <p className="text-muted-foreground mt-1">Monthly participation summary</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-sm text-nzc-dark-gray/60">1 hour ago</span>
+                  <span className="text-sm text-muted-foreground">1 hour ago</span>
                   <div className="w-3 h-3 bg-nzc-blue rounded-full ml-auto mt-2 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
               </div>
@@ -276,12 +276,12 @@ const LandingPage = () => {
                 <div className="flex items-center gap-6">
                   <div className="w-4 h-4 bg-nzc-green rounded-full shadow-lg shadow-nzc-green/50"></div>
                   <div>
-                    <span className="font-bold text-nzc-dark-blue text-lg">Data export completed</span>
-                    <p className="text-nzc-dark-gray/70 mt-1">Regional participation data - Q4 2024</p>
+                    <span className="font-bold text-foreground text-lg">Data export completed</span>
+                    <p className="text-muted-foreground mt-1">Regional participation data - Q4 2024</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-sm text-nzc-dark-gray/60">3 hours ago</span>
+                  <span className="text-sm text-muted-foreground">3 hours ago</span>
                   <div className="w-3 h-3 bg-nzc-green rounded-full ml-auto mt-2 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
               </div>
