@@ -2,14 +2,15 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// Firebase configuration - Replace with your actual config
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "your-app-id"
+  apiKey: "AIzaSyDSUBzNpJXqWf4VwLIlko7oJ_3wHxrTVBI",
+  authDomain: "nzc-awareness-project.firebaseapp.com",
+  projectId: "nzc-awareness-project",
+  storageBucket: "nzc-awareness-project.firebasestorage.app",
+  messagingSenderId: "465157547832",
+  appId: "1:465157547832:web:81e334edd754aca5f543cd",
+  measurementId: "G-8QR3894Y3S"
 };
 
 // Initialize Firebase
