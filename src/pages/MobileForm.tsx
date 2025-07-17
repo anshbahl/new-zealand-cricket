@@ -12,10 +12,15 @@ import { FormField } from "@/components/form/FormField";
 import { FormSection } from "@/components/form/FormSection";
 import { YearGroupSelector } from "@/components/form/YearGroupSelector";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/useAuth";
+import { useFirestore } from "@/hooks/useFirestore";
 
 const MobileForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const { addSession } = useFirestore();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     activatorName: "",
     association: "",
@@ -32,13 +37,42 @@ const MobileForm = () => {
     geolocation: null as { lat: number; lng: number } | null
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Session data submitted successfully!",
-      description: "Your participation data has been recorded.",
-    });
-    navigate("/analytics");
+    if (!user) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to submit session data.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      await addSession({
+        ...formData,
+        maleStudents: parseInt(formData.maleStudents) || 0,
+        femaleStudents: parseInt(formData.femaleStudents) || 0,
+        userId: user.uid
+      });
+      
+      toast({
+        title: "Session data submitted successfully!",
+        description: "Your participation data has been recorded.",
+      });
+      
+      navigate("/analytics");
+    } catch (error: any) {
+      toast({
+        title: "Submission failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getGeolocation = () => {
@@ -308,9 +342,10 @@ const MobileForm = () => {
                 <Button 
                   type="submit" 
                   className="bg-blue-600 hover:bg-blue-700 text-white h-11 px-8 font-semibold"
+                  disabled={loading}
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  Submit Session Data
+                  {loading ? "Submitting..." : "Submit Session Data"}
                 </Button>
               </div>
             </form>

@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,8 @@ import {
   Target,
   MapPin,
   Eye,
-  ArrowRight
+  ArrowRight,
+  LogOut
 } from "lucide-react";
 import { 
   LineChart, 
@@ -32,20 +33,64 @@ import {
   BarChart, 
   Bar
 } from 'recharts';
+import { useAuth } from "@/hooks/useAuth";
+import { useFirestore } from "@/hooks/useFirestore";
+import { format } from "date-fns";
 
 const AnalyticsDashboard = () => {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const { getSessions, getAnalytics, exportToCSV } = useFirestore();
   const [viewLevel, setViewLevel] = useState("national");
   const [dateRange, setDateRange] = useState("30");
+  const [analytics, setAnalytics] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Mock data with NZC-inspired colors
+  useEffect(() => {
+    const loadAnalytics = async () => {
+      try {
+        const data = await getAnalytics();
+        setAnalytics(data);
+      } catch (error) {
+        console.error("Error loading analytics:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAnalytics();
+    const unsubscribe = getSessions();
+    return unsubscribe;
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <Target className="w-4 h-4 text-white" />
+          </div>
+          <p className="text-gray-600">Loading analytics...</p>
+        </div>
+      </div>
+    );
+  }
+
   const overviewStats = {
-    totalSessions: viewLevel === "national" ? 1245 : viewLevel === "regional" ? 298 : 89,
-    totalParticipants: viewLevel === "national" ? 24876 : viewLevel === "regional" ? 4567 : 1234,
-    regionsActive: viewLevel === "national" ? "14/16" : viewLevel === "regional" ? "3/4" : "1/1",
-    schoolsReached: viewLevel === "national" ? 378 : viewLevel === "regional" ? 78 : 23,
+    totalSessions: analytics?.totalSessions || 0,
+    totalParticipants: analytics?.totalParticipants || 0,
+    regionsActive: `${analytics?.regionsActive || 0}/16`,
+    schoolsReached: analytics?.schoolsReached || 0,
     growthRate: "15.7%",
-    targetProgress: 78
+    targetProgress: Math.min(((analytics?.totalParticipants || 0) / 30000) * 100, 100)
   };
 
   const participationTrendData = [
@@ -65,13 +110,14 @@ const AnalyticsDashboard = () => {
     { region: 'Waikato', progress: 58, color: 'bg-red-500' }
   ];
 
-  const recentSessions = [
-    { date: '14 Jul 2025', location: 'Eden Park, Auckland', type: 'School Program', participants: 32, coach: 'Sarah Thompson', status: 'Completed' },
-    { date: '12 Jul 2025', location: 'Hagley Oval, Christchurch', type: 'Community Event', participants: 78, coach: 'Michael Johnson', status: 'Completed' },
-    { date: '10 Jul 2025', location: 'University Oval, Dunedin', type: 'Youth Training', participants: 24, coach: 'Emma Wilson', status: 'Completed' },
-    { date: '08 Jul 2025', location: 'Basin Reserve, Wellington', type: 'School Program', participants: 45, coach: 'David Clark', status: 'Completed' },
-    { date: '05 Jul 2025', location: 'Bay Oval, Mount Maunganui', type: 'Community Event', participants: 56, coach: 'Jessica Brown', status: 'Completed' }
-  ];
+  const recentSessions = analytics?.recentSessions?.map((session: any) => ({
+    date: format(session.createdAt.toDate(), 'dd MMM yyyy'),
+    location: session.school,
+    type: session.sessionType,
+    participants: session.maleStudents + session.femaleStudents,
+    coach: session.activatorName,
+    status: 'Completed'
+  })) || [];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -85,16 +131,26 @@ const AnalyticsDashboard = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold">NZ Cricket Participation Tracker</h1>
-                <p className="text-slate-300 mt-1">Active Region: Auckland</p>
+                <p className="text-slate-300 mt-1">Welcome, {user?.email}</p>
               </div>
             </div>
-            <Button 
-              onClick={() => navigate("/mobile-form")}
-              className="bg-white text-slate-900 hover:bg-slate-100 px-6 py-3 h-auto font-semibold"
-            >
-              <Plus className="w-5 h-5 mr-2" />
-              Record New Session
-            </Button>
+            <div className="flex items-center space-x-3">
+              <Button 
+                onClick={() => navigate("/mobile-form")}
+                className="bg-white text-slate-900 hover:bg-slate-100 px-6 py-3 h-auto font-semibold"
+              >
+                <Plus className="w-5 h-5 mr-2" />
+                Record New Session
+              </Button>
+              <Button 
+                onClick={handleLogout}
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-slate-900 px-4 py-3 h-auto"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -287,9 +343,20 @@ const AnalyticsDashboard = () => {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold">Recent Sessions</CardTitle>
-              <Button variant="ghost" size="sm">
-                View All Sessions <ArrowRight className="w-4 h-4 ml-1" />
-              </Button>
+              <div className="flex items-center space-x-2">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={exportToCSV}
+                  className="border-slate-300 hover:border-slate-500"
+                >
+                  <Download className="w-4 h-4 mr-1" />
+                  Export CSV
+                </Button>
+                <Button variant="ghost" size="sm">
+                  View All Sessions <ArrowRight className="w-4 h-4 ml-1" />
+                </Button>
+              </div>
             </div>
           </CardHeader>
           <CardContent>
