@@ -381,9 +381,9 @@ const AnalyticsDashboard = () => {
                     <TableCell>
                       <div className="flex items-center space-x-2">
                         <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
-                          <span className="text-xs font-medium">{session.coach.split(' ').map(n => n[0]).join('')}</span>
+                          <span className="text-xs font-medium">{session.coach?.split(' ').map(n => n[0]).join('') || 'N/A'}</span>
                         </div>
-                        <span>{session.coach}</span>
+                        <span>{session.coach || 'Unknown'}</span>
                       </div>
                     </TableCell>
                     <TableCell>
