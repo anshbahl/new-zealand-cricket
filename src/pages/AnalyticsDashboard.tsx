@@ -111,10 +111,10 @@ const AnalyticsDashboard = () => {
   ];
 
   const recentSessions = analytics?.recentSessions?.map((session: any) => ({
-    date: format(session.createdAt.toDate(), 'dd MMM yyyy'),
+    date: session.createdAt?.toDate ? format(session.createdAt.toDate(), 'dd MMM yyyy') : 'Unknown Date',
     location: session.school,
     type: session.sessionType,
-    participants: session.maleStudents + session.femaleStudents,
+    participants: (session.maleStudents || 0) + (session.femaleStudents || 0),
     coach: session.activatorName,
     status: 'Completed'
   })) || [];
