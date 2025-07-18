@@ -46,18 +46,18 @@ export const AuthForm = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
+      <Card className="w-full max-w-md shadow-lg">
+        <CardHeader className={`text-center ${isLogin ? 'bg-gradient-to-r from-blue-50 to-blue-100' : 'bg-gradient-to-r from-green-50 to-green-100'}`}>
           <div className="flex items-center justify-center mb-4">
-            <div className="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center">
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${isLogin ? 'bg-blue-600' : 'bg-green-600'}`}>
               <Target className="w-6 h-6 text-white" />
             </div>
           </div>
           <CardTitle className="text-2xl font-bold text-slate-900">
-            NZ Cricket Dashboard
+            {isLogin ? 'Welcome Back' : 'Join NZ Cricket'}
           </CardTitle>
           <p className="text-slate-600">
-            {isLogin ? 'Sign in to your account' : 'Create a new account'}
+            {isLogin ? 'Sign in to access your cricket dashboard' : 'Create your activator account to get started'}
           </p>
         </CardHeader>
         <CardContent>
@@ -94,10 +94,10 @@ export const AuthForm = () => {
             </div>
             <Button
               type="submit"
-              className="w-full h-11 bg-slate-900 hover:bg-slate-800 text-white"
+              className={`w-full h-11 text-white ${isLogin ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-600 hover:bg-green-700'}`}
               disabled={loading}
             >
-              {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Sign Up')}
+              {loading ? 'Please wait...' : (isLogin ? 'Sign In to Dashboard' : 'Create Account')}
             </Button>
           </form>
           <div className="mt-4 text-center">

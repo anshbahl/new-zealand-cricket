@@ -3,10 +3,21 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BarChart3, Smartphone, TrendingUp, Users, Calendar, FileText, Plus, Eye, ChevronRight, Zap, Target, Globe, ArrowUpRight, Star, Trophy, Shield } from "lucide-react";
+import { BarChart3, Smartphone, TrendingUp, Users, Calendar, FileText, Plus, Eye, ChevronRight, Zap, Target, Globe, ArrowUpRight, Star, Trophy, Shield, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import Footer from "@/components/common/Footer";
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   const quickActions = [
     {
@@ -28,63 +39,21 @@ const LandingPage = () => {
       shadowColor: "shadow-nzc-blue/25",
       badge: "Pro",
       badgeColor: "bg-blue-100 text-blue-700 border-blue-200"
-    },
-    {
-      title: "Mobile Entry Form",
-      description: "Optimized for on-the-go data collection",
-      icon: Smartphone,
-      action: () => navigate("/mobile-form"),
-      gradient: "from-purple-500 via-purple-600 to-purple-700",
-      shadowColor: "shadow-purple-500/25",
-      badge: "Fast",
-      badgeColor: "bg-purple-100 text-purple-700 border-purple-200"
     }
   ];
 
   const statsOverview = [
-    { label: "Total Participants", value: "2,847", icon: Users, change: "+12%", trend: "up", color: "text-nzc-green", bgColor: "bg-nzc-light-green" },
-    { label: "Active Programs", value: "42", icon: Calendar, change: "+3", trend: "up", color: "text-nzc-blue", bgColor: "bg-nzc-light-blue" },
+    { label: "Participants Today", value: "156", icon: Users, change: "+24%", trend: "up", color: "text-nzc-green", bgColor: "bg-nzc-light-green" },
+    { label: "Sessions Today", value: "12", icon: Calendar, change: "+8", trend: "up", color: "text-nzc-blue", bgColor: "bg-nzc-light-blue" },
     { label: "Data Entries Today", value: "156", icon: FileText, change: "+24%", trend: "up", color: "text-orange-600", bgColor: "bg-orange-100" },
-    { label: "Growth Rate", value: "+12%", icon: TrendingUp, change: "+2.1%", trend: "up", color: "text-emerald-600", bgColor: "bg-emerald-100" }
+    { label: "Today's Growth", value: "+8.2%", icon: TrendingUp, change: "+2.1%", trend: "up", color: "text-emerald-600", bgColor: "bg-emerald-100" }
   ];
 
-  const features = [
-    {
-      icon: Zap,
-      title: "Lightning Fast",
-      description: "Quick data entry and real-time processing for immediate insights",
-      color: "text-yellow-600",
-      bgColor: "bg-yellow-100",
-      gradient: "from-yellow-500 to-orange-500"
-    },
-    {
-      icon: Target,
-      title: "Precise Tracking",
-      description: "Accurate participation metrics with advanced analytics",
-      color: "text-nzc-blue",
-      bgColor: "bg-nzc-light-blue",
-      gradient: "from-nzc-blue to-nzc-dark-blue"
-    },
-    {
-      icon: Globe,
-      title: "Nationwide Coverage",
-      description: "Supporting cricket development across all regions",
-      color: "text-nzc-green",
-      bgColor: "bg-nzc-light-green",
-      gradient: "from-nzc-green to-emerald-600"
-    }
-  ];
-
-  const achievements = [
-    { icon: Trophy, label: "Award Winning", desc: "Best Sports Platform 2024" },
-    { icon: Shield, label: "Secure & Reliable", desc: "Enterprise-grade security" },
-    { icon: Star, label: "Highly Rated", desc: "4.9/5 user satisfaction" }
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-nzc-light-blue/30 via-white to-nzc-light-green/30">
       {/* Enhanced Header Section */}
-      <div className="bg-white/95 backdrop-blur-lg border-b border-nzc-blue/20 sticky top-0 z-50 shadow-sm">
+      <div className="bg-gradient-to-r from-slate-800 to-slate-700 backdrop-blur-lg border-b border-nzc-blue/20 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -92,19 +61,13 @@ const LandingPage = () => {
                 <BarChart3 className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-nzc-blue to-nzc-green bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold text-white">
                   NZC Participation Platform
                 </h1>
-                <p className="text-muted-foreground text-sm font-medium">Empowering cricket activators nationwide</p>
+                <p className="text-gray-300 text-sm font-medium">Empowering cricket activators nationwide</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
-              {achievements.map((achievement, index) => (
-                <div key={index} className="hidden lg:flex items-center gap-2 text-xs text-muted-foreground">
-                  <achievement.icon className="w-4 h-4 text-nzc-green" />
-                  <span className="font-medium">{achievement.label}</span>
-                </div>
-              ))}
               <Button 
                 onClick={() => navigate("/analytics")} 
                 className="bg-nzc-blue hover:bg-nzc-dark-blue text-white shadow-lg transition-all duration-300 group border-0"
@@ -112,6 +75,14 @@ const LandingPage = () => {
                 <Eye className="w-4 h-4 mr-2 transition-transform group-hover:scale-110" />
                 Dashboard
                 <ArrowUpRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-all" />
+              </Button>
+              <Button 
+                onClick={handleLogout}
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-slate-900 transition-all duration-300"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
               </Button>
             </div>
           </div>
@@ -130,18 +101,9 @@ const LandingPage = () => {
               Welcome, <span className="bg-gradient-to-r from-nzc-blue via-purple-600 to-nzc-green bg-clip-text text-transparent">Activator</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
-              Transform your cricket participation management with our cutting-edge platform. 
-              Record entries, analyze trends, and drive program success with intelligence and precision.
+              Streamline your cricket participation management with our professional platform. 
+              Record sessions, analyze today's data, and track program success with precision.
             </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              {achievements.map((achievement, index) => (
-                <div key={index} className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-sm border border-nzc-blue/10">
-                  <achievement.icon className="w-4 h-4 text-nzc-green" />
-                  <span className="text-sm font-medium text-foreground">{achievement.label}</span>
-                  <span className="text-xs text-muted-foreground">• {achievement.desc}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
@@ -174,7 +136,7 @@ const LandingPage = () => {
             <h3 className="text-4xl font-bold text-foreground mb-6">Quick Actions</h3>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Choose your next step to streamline your cricket participation management</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
             {quickActions.map((action, index) => (
               <Card key={index} className="bg-white/95 backdrop-blur-sm border-0 hover:shadow-2xl transition-all duration-700 group cursor-pointer overflow-hidden relative">
                 <div className="absolute top-6 right-6 z-10">
@@ -212,24 +174,6 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* Enhanced Features Section */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h3 className="text-4xl font-bold text-foreground mb-6">Why Choose Our Platform</h3>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Built for cricket activators, by cricket enthusiasts</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {features.map((feature, index) => (
-              <div key={index} className="text-center group hover:scale-105 transition-all duration-500">
-                <div className={`w-20 h-20 bg-gradient-to-br ${feature.gradient} rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-xl`}>
-                  <feature.icon className="w-10 h-10 text-white" />
-                </div>
-                <h4 className="text-2xl font-bold text-foreground mb-4">{feature.title}</h4>
-                <p className="text-lg text-muted-foreground leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* Enhanced Recent Activity */}
         <Card className="bg-white/95 backdrop-blur-sm border-0 shadow-2xl">
@@ -289,6 +233,8 @@ const LandingPage = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <Footer />
     </div>
   );
 };

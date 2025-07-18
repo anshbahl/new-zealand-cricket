@@ -19,8 +19,10 @@ import {
   MapPin,
   Eye,
   ArrowRight,
-  LogOut
+  LogOut,
+  ArrowLeft
 } from "lucide-react";
+import Footer from "@/components/common/Footer";
 import { 
   LineChart, 
   Line, 
@@ -116,7 +118,7 @@ const AnalyticsDashboard = () => {
     type: session.sessionType,
     participants: (session.maleStudents || 0) + (session.femaleStudents || 0),
     coach: session.activatorName,
-    status: 'Completed'
+    conversionRate: `${Math.floor(Math.random() * 15) + 5}%` // Simulated conversion rate
   })) || [];
 
   return (
@@ -135,6 +137,14 @@ const AnalyticsDashboard = () => {
               </div>
             </div>
             <div className="flex items-center space-x-3">
+              <Button 
+                onClick={() => navigate("/")}
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-slate-900 px-4 py-3 h-auto"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Landing
+              </Button>
               <Button 
                 onClick={() => navigate("/mobile-form")}
                 className="bg-white text-slate-900 hover:bg-slate-100 px-6 py-3 h-auto font-semibold"
@@ -269,6 +279,16 @@ const AnalyticsDashboard = () => {
                   <Line type="monotone" dataKey="participants" stroke="#3b82f6" strokeWidth={2} />
                 </LineChart>
               </ResponsiveContainer>
+              <div className="flex items-center justify-center mt-4 space-x-6">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                  <span className="text-sm text-gray-600">Male</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-pink-500 rounded-full"></div>
+                  <span className="text-sm text-gray-600">Female</span>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
@@ -282,19 +302,19 @@ const AnalyticsDashboard = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {regionalPerformance.map((region, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700">{region.region}</span>
-                    <div className="flex items-center space-x-2 flex-1 mx-4">
-                      <div className="flex-1 bg-gray-200 rounded-full h-2">
+                  <div key={index} className="flex items-center">
+                    <div className="w-24 text-sm font-medium text-gray-700 shrink-0">{region.region}</div>
+                    <div className="flex-1 mx-4">
+                      <div className="bg-gray-200 rounded-full h-3">
                         <div 
-                          className={`h-2 rounded-full ${region.color}`}
+                          className={`h-3 rounded-full ${region.color} transition-all duration-300`}
                           style={{ width: `${region.progress}%` }}
                         />
                       </div>
-                      <span className="text-sm font-medium text-gray-900 min-w-[3rem]">{region.progress}%</span>
                     </div>
+                    <span className="text-sm font-medium text-gray-900 min-w-[3rem]">{region.progress}%</span>
                   </div>
                 ))}
               </div>
@@ -368,7 +388,7 @@ const AnalyticsDashboard = () => {
                   <TableHead className="text-gray-600">Type</TableHead>
                   <TableHead className="text-gray-600">Participants</TableHead>
                   <TableHead className="text-gray-600">Coach</TableHead>
-                  <TableHead className="text-gray-600">Status</TableHead>
+                  <TableHead className="text-gray-600">School to Club Conversion</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -387,8 +407,8 @@ const AnalyticsDashboard = () => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="text-gray-600 bg-gray-50">
-                        {session.status}
+                      <Badge variant="outline" className="text-green-600 bg-green-50 border-green-200">
+                        {session.conversionRate}
                       </Badge>
                     </TableCell>
                   </TableRow>
@@ -398,29 +418,9 @@ const AnalyticsDashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Footer */}
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <div className="bg-slate-900 text-white rounded-lg p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                  <Target className="w-5 h-5 text-slate-900" />
-                </div>
-                <span className="font-semibold">New Zealand Cricket</span>
-              </div>
-              <div className="flex items-center space-x-6 text-sm">
-                <span>About</span>
-                <span>Contact</span>
-                <span>Help</span>
-                <span>Privacy Policy</span>
-              </div>
-              <div className="text-sm text-gray-300">
-                © 2025 NZ Cricket. All rights reserved.
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };
