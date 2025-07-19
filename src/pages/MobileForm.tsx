@@ -154,23 +154,25 @@ const MobileForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-800/20 via-slate-700/10 to-slate-600/20">
       {/* Header */}
-      <div className="bg-slate-900 text-white">
+      <div className="bg-gradient-to-r from-slate-800 to-slate-700 text-white">
         <div className="container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
                 onClick={() => navigate("/analytics")}
-                className="text-white hover:bg-slate-800 p-2"
+                className="bg-slate-600 hover:bg-slate-500 text-white p-2"
               >
                 <ArrowLeft className="w-5 h-5" />
               </Button>
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                  <Target className="w-5 h-5 text-slate-900" />
-                </div>
+                <img 
+                  src="/lovable-uploads/0cff761b-365d-4044-84fb-508cfc2d8022.png" 
+                  alt="NZC Logo" 
+                  className="w-8 h-8 object-contain"
+                />
                 <h1 className="text-xl font-bold">Session Data Entry</h1>
               </div>
             </div>
@@ -181,7 +183,7 @@ const MobileForm = () => {
       {/* Main Content */}
       <div className="container mx-auto px-6 py-8">
         <Card className="max-w-5xl mx-auto shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-slate-50 to-slate-100 border-b border-gray-200">
+          <CardHeader className="bg-gradient-to-r from-slate-100 to-slate-200 border-b border-slate-300">
             <CardTitle className="text-2xl font-bold text-gray-900 flex items-center gap-3">
               <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                 <User className="w-5 h-5 text-blue-600" />

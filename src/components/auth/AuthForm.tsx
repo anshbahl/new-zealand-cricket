@@ -11,8 +11,9 @@ export const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login, register } = useAuth();
+  const { login, register, user } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,13 +46,15 @@ export const AuthForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-800/20 via-slate-700/10 to-slate-600/20 flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-lg">
-        <CardHeader className={`text-center ${isLogin ? 'bg-gradient-to-r from-blue-50 to-blue-100' : 'bg-gradient-to-r from-green-50 to-green-100'}`}>
+        <CardHeader className="text-center bg-gradient-to-r from-slate-100 to-slate-200">
           <div className="flex items-center justify-center mb-4">
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${isLogin ? 'bg-blue-600' : 'bg-green-600'}`}>
-              <Target className="w-6 h-6 text-white" />
-            </div>
+            <img 
+              src="/lovable-uploads/0cff761b-365d-4044-84fb-508cfc2d8022.png" 
+              alt="NZC Logo" 
+              className="w-12 h-12 object-contain"
+            />
           </div>
           <CardTitle className="text-2xl font-bold text-slate-900">
             {isLogin ? 'Welcome Back' : 'Join NZ Cricket'}
@@ -62,6 +65,23 @@ export const AuthForm = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-slate-700">Full Name</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                  <Input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="pl-10 h-11 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
+                    placeholder="Enter your full name"
+                    required={!isLogin}
+                  />
+                </div>
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-slate-700">Email</Label>
               <div className="relative">
@@ -94,7 +114,7 @@ export const AuthForm = () => {
             </div>
             <Button
               type="submit"
-              className={`w-full h-11 text-white ${isLogin ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-600 hover:bg-green-700'}`}
+              className="w-full h-11 bg-slate-700 hover:bg-slate-600 text-white"
               disabled={loading}
             >
               {loading ? 'Please wait...' : (isLogin ? 'Sign In to Dashboard' : 'Create Account')}

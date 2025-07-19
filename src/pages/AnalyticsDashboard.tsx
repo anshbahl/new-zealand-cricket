@@ -122,32 +122,33 @@ const AnalyticsDashboard = () => {
   })) || [];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-800/20 via-slate-700/10 to-slate-600/20">
       {/* Header */}
       <div className="bg-gradient-to-r from-slate-900 to-slate-700 text-white">
         <div className="container mx-auto px-6 py-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                <Target className="w-5 h-5 text-slate-900" />
-              </div>
+              <img 
+                src="/lovable-uploads/0cff761b-365d-4044-84fb-508cfc2d8022.png" 
+                alt="NZC Logo" 
+                className="w-8 h-8 object-contain"
+              />
               <div>
                 <h1 className="text-2xl font-bold">NZ Cricket Participation Tracker</h1>
-                <p className="text-slate-300 mt-1">Welcome, {user?.email}</p>
+                <p className="text-slate-300 mt-1">Welcome, {user?.displayName || user?.email}</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
               <Button 
                 onClick={() => navigate("/")}
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-slate-900 px-4 py-3 h-auto"
+                className="bg-slate-600 hover:bg-slate-500 text-white px-4 py-3 h-auto"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Landing
               </Button>
               <Button 
                 onClick={() => navigate("/mobile-form")}
-                className="bg-white text-slate-900 hover:bg-slate-100 px-6 py-3 h-auto font-semibold"
+                className="bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 h-auto font-semibold"
               >
                 <Plus className="w-5 h-5 mr-2" />
                 Record New Session

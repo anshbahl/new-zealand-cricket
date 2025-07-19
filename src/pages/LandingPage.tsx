@@ -57,9 +57,11 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-14 h-14 bg-gradient-to-br from-nzc-blue to-nzc-green rounded-2xl flex items-center justify-center shadow-lg">
-                <BarChart3 className="w-7 h-7 text-white" />
-              </div>
+              <img 
+                src="/lovable-uploads/0cff761b-365d-4044-84fb-508cfc2d8022.png" 
+                alt="NZC Logo" 
+                className="w-14 h-14 object-contain p-2 bg-white rounded-2xl shadow-lg"
+              />
               <div>
                 <h1 className="text-3xl font-bold text-white">
                   NZC Participation Platform
