@@ -131,11 +131,11 @@ const AnalyticsDashboard = () => {
               <img 
                 src="/lovable-uploads/0cff761b-365d-4044-84fb-508cfc2d8022.png" 
                 alt="NZC Logo" 
-                className="w-8 h-8 object-contain"
+                className="w-12 h-12 object-contain p-2 bg-white rounded-xl shadow-lg"
               />
               <div>
                 <h1 className="text-2xl font-bold">NZ Cricket Participation Tracker</h1>
-                <p className="text-slate-300 mt-1">Welcome, {user?.displayName || user?.email}</p>
+                <p className="text-slate-300 mt-1">Welcome, {user?.displayName || user?.email?.split('@')[0] || 'User'}</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">

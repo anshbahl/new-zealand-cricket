@@ -171,7 +171,7 @@ const MobileForm = () => {
                 <img 
                   src="/lovable-uploads/0cff761b-365d-4044-84fb-508cfc2d8022.png" 
                   alt="NZC Logo" 
-                  className="w-8 h-8 object-contain"
+                  className="w-10 h-10 object-contain p-2 bg-white rounded-xl shadow-lg"
                 />
                 <h1 className="text-xl font-bold">Session Data Entry</h1>
               </div>

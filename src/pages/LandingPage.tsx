@@ -9,7 +9,7 @@ import Footer from "@/components/common/Footer";
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -26,9 +26,7 @@ const LandingPage = () => {
       icon: Plus,
       action: () => navigate("/mobile-form"),
       gradient: "from-nzc-green via-nzc-green to-emerald-600",
-      shadowColor: "shadow-nzc-green/25",
-      badge: "Popular",
-      badgeColor: "bg-emerald-100 text-emerald-700 border-emerald-200"
+      shadowColor: "shadow-nzc-green/25"
     },
     {
       title: "View Analytics",
@@ -36,9 +34,7 @@ const LandingPage = () => {
       icon: BarChart3,
       action: () => navigate("/analytics"),
       gradient: "from-nzc-blue via-nzc-blue to-blue-600",
-      shadowColor: "shadow-nzc-blue/25",
-      badge: "Pro",
-      badgeColor: "bg-blue-100 text-blue-700 border-blue-200"
+      shadowColor: "shadow-nzc-blue/25"
     }
   ];
 
@@ -90,17 +86,18 @@ const LandingPage = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Mobile optimized layout */}
         {/* Hero Section */}
-        <div className="text-center mb-20 relative">
+        <div className="text-center mb-12 lg:mb-20 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-slate-800/10 via-transparent to-slate-700/10 rounded-3xl -z-10"></div>
-          <div className="py-20 px-8">
-            <Badge variant="outline" className="mb-8 border-slate-500/30 text-slate-700 bg-slate-100/50 text-sm px-4 py-2">
+          <div className="py-10 lg:py-20 px-4 lg:px-8">
+            <Badge variant="outline" className="mb-6 lg:mb-8 border-slate-500/30 text-slate-700 bg-slate-100/50 text-sm px-4 py-2">
               ✨ Welcome to the Future of Cricket Data
             </Badge>
-            <h2 className="text-6xl font-bold text-foreground mb-8 leading-tight">
-              Welcome, <span className="bg-gradient-to-r from-slate-700 via-slate-600 to-slate-800 bg-clip-text text-transparent">Activator</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-foreground mb-6 lg:mb-8 leading-tight">
+              Welcome, <span className="bg-gradient-to-r from-slate-700 via-slate-600 to-slate-800 bg-clip-text text-transparent">{user?.displayName || "Activator"}</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
+            <p className="text-lg lg:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6 lg:mb-8">
               Streamline your cricket participation management with our professional platform. 
               Record sessions, analyze participation data, and track program success with precision and ease.
             </p>
@@ -108,22 +105,22 @@ const LandingPage = () => {
         </div>
 
         {/* Enhanced Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8 mb-12 lg:mb-20">
           {statsOverview.map((stat, index) => (
             <Card key={index} className="bg-white/90 backdrop-blur-sm border-0 hover:shadow-2xl hover:scale-105 transition-all duration-500 group overflow-hidden relative shadow-lg">
               <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-gray-50/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <CardContent className="p-8 relative">
-                <div className="flex items-center justify-between mb-6">
-                  <div className={`p-4 ${stat.bgColor} rounded-2xl shadow-sm`}>
-                    <stat.icon className={`w-7 h-7 ${stat.color}`} />
+              <CardContent className="p-4 lg:p-8 relative">
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-4 lg:mb-6">
+                  <div className={`p-3 lg:p-4 ${stat.bgColor} rounded-2xl shadow-sm mb-3 lg:mb-0`}>
+                    <stat.icon className={`w-5 h-5 lg:w-7 lg:h-7 ${stat.color}`} />
                   </div>
-                  <Badge className={`${stat.color.replace('text-', 'bg-').replace('-600', '-100')} ${stat.color} border-0 font-semibold`}>
+                  <Badge className={`${stat.color.replace('text-', 'bg-').replace('-600', '-100')} ${stat.color} border-0 font-semibold text-xs lg:text-sm`}>
                     {stat.change}
                   </Badge>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-muted-foreground mb-2">{stat.label}</p>
-                  <p className="text-4xl font-bold text-foreground">{stat.value}</p>
+                  <p className="text-xs lg:text-sm font-semibold text-muted-foreground mb-1 lg:mb-2">{stat.label}</p>
+                  <p className="text-2xl lg:text-4xl font-bold text-foreground">{stat.value}</p>
                 </div>
               </CardContent>
             </Card>
@@ -131,42 +128,37 @@ const LandingPage = () => {
         </div>
 
         {/* Enhanced Quick Actions */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h3 className="text-4xl font-bold text-foreground mb-6">Quick Actions</h3>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Choose your next step to streamline your cricket participation management</p>
+        <div className="mb-12 lg:mb-20">
+          <div className="text-center mb-8 lg:mb-12">
+            <h3 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 lg:mb-6">Quick Actions</h3>
+            <p className="text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto px-4">Choose your next step to streamline your cricket participation management</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 max-w-4xl mx-auto">
             {quickActions.map((action, index) => (
               <Card key={index} className="bg-white/95 backdrop-blur-sm border-0 hover:shadow-2xl transition-all duration-700 group cursor-pointer overflow-hidden relative">
-                <div className="absolute top-6 right-6 z-10">
-                  <Badge className={`${action.badgeColor} border-0 text-xs font-semibold`}>
-                    {action.badge}
-                  </Badge>
-                </div>
-                <CardHeader className="pb-6 relative">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-6">
-                      <div className={`p-5 rounded-3xl bg-gradient-to-br ${action.gradient} ${action.shadowColor} shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6`}>
-                        <action.icon className="w-8 h-8 text-white" />
+                <CardHeader className="pb-4 lg:pb-6 relative">
+                  <div className="flex flex-col lg:flex-row items-start lg:items-start justify-between">
+                    <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-6 w-full lg:w-auto">
+                      <div className={`p-4 lg:p-5 rounded-3xl bg-gradient-to-br ${action.gradient} ${action.shadowColor} shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6`}>
+                        <action.icon className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
                       </div>
-                      <div>
-                        <CardTitle className="text-2xl font-bold text-foreground group-hover:text-nzc-blue transition-colors">
+                      <div className="flex-1 lg:flex-none">
+                        <CardTitle className="text-xl lg:text-2xl font-bold text-foreground group-hover:text-nzc-blue transition-colors">
                           {action.title}
                         </CardTitle>
                       </div>
                     </div>
-                    <ChevronRight className="w-6 h-6 text-muted-foreground group-hover:text-nzc-blue group-hover:translate-x-2 transition-all" />
+                    <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6 text-muted-foreground group-hover:text-nzc-blue group-hover:translate-x-2 transition-all self-end lg:self-start mt-2 lg:mt-0" />
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <p className="text-muted-foreground mb-8 leading-relaxed text-lg">{action.description}</p>
+                  <p className="text-muted-foreground mb-6 lg:mb-8 leading-relaxed text-base lg:text-lg">{action.description}</p>
                   <Button 
                     onClick={action.action}
-                    className="w-full bg-slate-700 hover:bg-slate-600 text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border-0 h-12 text-lg font-semibold"
+                    className="w-full bg-slate-700 hover:bg-slate-600 text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border-0 h-11 lg:h-12 text-base lg:text-lg font-semibold"
                   >
                     Get Started
-                    <ArrowUpRight className="w-5 h-5 ml-2" />
+                    <ArrowUpRight className="w-4 h-4 lg:w-5 lg:h-5 ml-2" />
                   </Button>
                 </CardContent>
               </Card>
@@ -183,9 +175,6 @@ const LandingPage = () => {
                 <TrendingUp className="w-7 h-7 text-nzc-blue" />
               </div>
               Recent Activity
-              <Badge className="ml-auto bg-nzc-green/20 text-nzc-green border-nzc-green/30 font-semibold">
-                Live
-              </Badge>
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0">
