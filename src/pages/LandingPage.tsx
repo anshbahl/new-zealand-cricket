@@ -79,7 +79,7 @@ const LandingPage = () => {
               <Button 
                 onClick={handleLogout}
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-slate-900 transition-all duration-300"
+                className="border-slate-300 text-slate-300 hover:bg-slate-100 hover:text-slate-900 transition-all duration-300"
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout
@@ -94,16 +94,9 @@ const LandingPage = () => {
         <div className="text-center mb-20 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-nzc-blue/5 via-transparent to-nzc-green/5 rounded-3xl -z-10"></div>
           <div className="py-20 px-8">
-            <Badge variant="outline" className="mb-8 border-nzc-blue/30 text-nzc-blue bg-nzc-light-blue/20 text-sm px-4 py-2">
-              ✨ Welcome to the Future of Cricket Data
-            </Badge>
             <h2 className="text-6xl font-bold text-foreground mb-8 leading-tight">
               Welcome, <span className="bg-gradient-to-r from-nzc-blue via-purple-600 to-nzc-green bg-clip-text text-transparent">Activator</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
-              Streamline your cricket participation management with our professional platform. 
-              Record sessions, analyze today's data, and track program success with precision.
-            </p>
           </div>
         </div>
 

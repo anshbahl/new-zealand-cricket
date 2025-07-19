@@ -155,7 +155,7 @@ const AnalyticsDashboard = () => {
               <Button 
                 onClick={handleLogout}
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-slate-900 px-4 py-3 h-auto"
+                className="border-slate-300 text-slate-300 hover:bg-slate-100 hover:text-slate-900 px-4 py-3 h-auto"
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout
