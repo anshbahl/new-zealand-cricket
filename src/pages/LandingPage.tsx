@@ -51,9 +51,9 @@ const LandingPage = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-nzc-light-blue/30 via-white to-nzc-light-green/30">
+    <div className="min-h-screen bg-gradient-to-br from-slate-800/20 via-slate-700/10 to-slate-600/20">
       {/* Enhanced Header Section */}
-      <div className="bg-gradient-to-r from-slate-800 to-slate-700 backdrop-blur-lg border-b border-nzc-blue/20 sticky top-0 z-50 shadow-sm">
+      <div className="bg-gradient-to-r from-slate-800 to-slate-700 backdrop-blur-lg border-b border-slate-600/30 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -70,7 +70,7 @@ const LandingPage = () => {
             <div className="flex items-center gap-4">
               <Button 
                 onClick={() => navigate("/analytics")} 
-                className="bg-nzc-blue hover:bg-nzc-dark-blue text-white shadow-lg transition-all duration-300 group border-0"
+                className="bg-slate-700 hover:bg-slate-600 text-white shadow-lg transition-all duration-300 group border-0"
               >
                 <Eye className="w-4 h-4 mr-2 transition-transform group-hover:scale-110" />
                 Dashboard
@@ -78,11 +78,9 @@ const LandingPage = () => {
               </Button>
               <Button 
                 onClick={handleLogout}
-                variant="outline"
-                className="border-slate-300 text-slate-300 hover:bg-slate-100 hover:text-slate-900 transition-all duration-300"
+                className="bg-slate-600 hover:bg-slate-500 text-white transition-all duration-300 w-10 h-10 p-0"
               >
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
+                <LogOut className="w-4 h-4" />
               </Button>
             </div>
           </div>
@@ -92,11 +90,18 @@ const LandingPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <div className="text-center mb-20 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-nzc-blue/5 via-transparent to-nzc-green/5 rounded-3xl -z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-800/10 via-transparent to-slate-700/10 rounded-3xl -z-10"></div>
           <div className="py-20 px-8">
+            <Badge variant="outline" className="mb-8 border-slate-500/30 text-slate-700 bg-slate-100/50 text-sm px-4 py-2">
+              ✨ Welcome to the Future of Cricket Data
+            </Badge>
             <h2 className="text-6xl font-bold text-foreground mb-8 leading-tight">
-              Welcome, <span className="bg-gradient-to-r from-nzc-blue via-purple-600 to-nzc-green bg-clip-text text-transparent">Activator</span>
+              Welcome, <span className="bg-gradient-to-r from-slate-700 via-slate-600 to-slate-800 bg-clip-text text-transparent">Activator</span>
             </h2>
+            <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
+              Streamline your cricket participation management with our professional platform. 
+              Record sessions, analyze participation data, and track program success with precision and ease.
+            </p>
           </div>
         </div>
 
@@ -156,7 +161,7 @@ const LandingPage = () => {
                   <p className="text-muted-foreground mb-8 leading-relaxed text-lg">{action.description}</p>
                   <Button 
                     onClick={action.action}
-                    className={`w-full bg-gradient-to-r ${action.gradient} text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border-0 h-12 text-lg font-semibold`}
+                    className="w-full bg-slate-700 hover:bg-slate-600 text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border-0 h-12 text-lg font-semibold"
                   >
                     Get Started
                     <ArrowUpRight className="w-5 h-5 ml-2" />

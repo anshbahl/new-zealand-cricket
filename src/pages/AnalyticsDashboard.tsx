@@ -91,7 +91,7 @@ const AnalyticsDashboard = () => {
     totalParticipants: analytics?.totalParticipants || 0,
     regionsActive: `${analytics?.regionsActive || 0}/16`,
     schoolsReached: analytics?.schoolsReached || 0,
-    growthRate: "15.7%",
+    enjoymentRate: "15.7%",
     targetProgress: Math.min(((analytics?.totalParticipants || 0) / 30000) * 100, 100)
   };
 
@@ -154,11 +154,9 @@ const AnalyticsDashboard = () => {
               </Button>
               <Button 
                 onClick={handleLogout}
-                variant="outline"
-                className="border-slate-300 text-slate-300 hover:bg-slate-100 hover:text-slate-900 px-4 py-3 h-auto"
+                className="bg-slate-600 hover:bg-slate-500 text-white transition-all duration-300 w-10 h-10 p-0"
               >
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
+                <LogOut className="w-4 h-4" />
               </Button>
             </div>
           </div>
@@ -236,10 +234,10 @@ const AnalyticsDashboard = () => {
           <Card className="lg:col-span-1">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-600">Growth Rate</span>
+                <span className="text-sm text-gray-600">Enjoyment Level</span>
                 <TrendingUp className="w-4 h-4 text-gray-400" />
               </div>
-              <div className="text-2xl font-bold text-gray-900">{overviewStats.growthRate}</div>
+              <div className="text-2xl font-bold text-gray-900">{overviewStats.enjoymentRate}</div>
               <div className="text-sm text-green-600 mt-1">↑ 3.2% from target</div>
             </CardContent>
           </Card>
