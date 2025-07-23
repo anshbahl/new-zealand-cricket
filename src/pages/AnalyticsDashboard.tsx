@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -38,15 +38,21 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { useFirestore } from "@/hooks/useFirestore";
 import { format } from "date-fns";
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const AnalyticsDashboard = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { getSessions, getAnalytics, exportToCSV } = useFirestore();
   const [viewLevel, setViewLevel] = useState("national");
+  const [selectedRegion, setSelectedRegion] = useState("");
+  const [selectedSchool, setSelectedSchool] = useState("");
   const [dateRange, setDateRange] = useState("30");
   const [analytics, setAnalytics] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstance = useRef<L.Map | null>(null);
 
   useEffect(() => {
     const loadAnalytics = async () => {
@@ -63,6 +69,48 @@ const AnalyticsDashboard = () => {
     loadAnalytics();
     const unsubscribe = getSessions();
     return unsubscribe;
+  }, []);
+
+  // Initialize Leaflet map
+  useEffect(() => {
+    if (mapRef.current && !mapInstance.current) {
+      // Center map on New Zealand
+      mapInstance.current = L.map(mapRef.current).setView([-41.2865, 174.7762], 6);
+
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(mapInstance.current);
+
+      // Add sample markers for cricket regions
+      const regions = [
+        { name: 'Wellington', lat: -41.2865, lng: 174.7762, activity: 'high' },
+        { name: 'Auckland', lat: -36.8485, lng: 174.7633, activity: 'high' },
+        { name: 'Canterbury', lat: -43.5321, lng: 172.6362, activity: 'medium' },
+        { name: 'Otago', lat: -45.8788, lng: 170.5028, activity: 'medium' },
+        { name: 'Waikato', lat: -37.7870, lng: 175.2793, activity: 'low' },
+      ];
+
+      regions.forEach(region => {
+        const color = region.activity === 'high' ? '#1e293b' : region.activity === 'medium' ? '#6b7280' : '#d1d5db';
+        
+        L.circleMarker([region.lat, region.lng], {
+          radius: 8,
+          fillColor: color,
+          color: '#ffffff',
+          weight: 2,
+          opacity: 1,
+          fillOpacity: 0.8
+        }).addTo(mapInstance.current!)
+          .bindPopup(`<b>${region.name}</b><br/>Activity: ${region.activity}`);
+      });
+    }
+
+    return () => {
+      if (mapInstance.current) {
+        mapInstance.current.remove();
+        mapInstance.current = null;
+      }
+    };
   }, []);
 
   const handleLogout = async () => {
@@ -172,52 +220,91 @@ const AnalyticsDashboard = () => {
           <div className="flex space-x-4 lg:space-x-8 overflow-x-auto">
             {[
               { key: 'national', label: 'National' },
-              { key: 'regional', label: 'Regional', hasDropdown: true },
-              { key: 'local', label: 'Local', hasDropdown: true }
+              { key: 'regional', label: 'Regional' },
+              { key: 'local', label: 'Local' }
             ].map((tab) => (
-              <div key={tab.key} className="flex items-center gap-2 flex-shrink-0">
-                <button
-                  onClick={() => setViewLevel(tab.key)}
-                  className={`py-3 lg:py-4 px-2 lg:px-4 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
-                    viewLevel === tab.key
-                      ? "border-blue-500 text-blue-600"
-                      : "border-transparent text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-                {tab.hasDropdown && (
-                  <Select>
-                    <SelectTrigger className="w-32 lg:w-40 h-8 text-xs">
-                      <SelectValue placeholder={tab.key === 'regional' ? 'Select Region' : 'Select School'} />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border shadow-lg z-50">
-                      {tab.key === 'regional' ? (
-                        <>
-                          <SelectItem value="wellington">Wellington</SelectItem>
-                          <SelectItem value="auckland">Auckland</SelectItem>
-                          <SelectItem value="canterbury">Canterbury</SelectItem>
-                          <SelectItem value="otago">Otago</SelectItem>
-                          <SelectItem value="waikato">Waikato</SelectItem>
-                          <SelectItem value="northern-districts">Northern Districts</SelectItem>
-                        </>
-                      ) : (
-                        <>
-                          <SelectItem value="wellington-college">Wellington College</SelectItem>
-                          <SelectItem value="auckland-grammar">Auckland Grammar</SelectItem>
-                          <SelectItem value="christchurch-boys">Christchurch Boys' High</SelectItem>
-                          <SelectItem value="otago-boys">Otago Boys' High</SelectItem>
-                          <SelectItem value="hamilton-boys">Hamilton Boys' High</SelectItem>
-                        </>
-                      )}
-                    </SelectContent>
-                  </Select>
-                )}
-              </div>
+              <button
+                key={tab.key}
+                onClick={() => setViewLevel(tab.key)}
+                className={`py-3 lg:py-4 px-2 lg:px-4 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
+                  viewLevel === tab.key
+                    ? "border-blue-500 text-blue-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                {tab.label}
+              </button>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Filter Section - Shows when Regional or Local is selected */}
+      {(viewLevel === 'regional' || viewLevel === 'local') && (
+        <div className="bg-gray-50 border-b border-gray-200">
+          <div className="container mx-auto px-4 lg:px-6 py-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-gray-700">Filter by:</span>
+              </div>
+              
+              {viewLevel === 'regional' && (
+                <div className="flex items-center gap-2">
+                  <label className="text-sm text-gray-600">Region:</label>
+                  <Select value={selectedRegion} onValueChange={setSelectedRegion}>
+                    <SelectTrigger className="w-48 h-10 bg-white border-gray-300">
+                      <SelectValue placeholder="Select Region" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border shadow-lg z-50">
+                      <SelectItem value="all">All Regions</SelectItem>
+                      <SelectItem value="wellington">Wellington</SelectItem>
+                      <SelectItem value="auckland">Auckland</SelectItem>
+                      <SelectItem value="canterbury">Canterbury</SelectItem>
+                      <SelectItem value="otago">Otago</SelectItem>
+                      <SelectItem value="waikato">Waikato</SelectItem>
+                      <SelectItem value="northern-districts">Northern Districts</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+              
+              {viewLevel === 'local' && (
+                <div className="flex items-center gap-2">
+                  <label className="text-sm text-gray-600">School:</label>
+                  <Select value={selectedSchool} onValueChange={setSelectedSchool}>
+                    <SelectTrigger className="w-64 h-10 bg-white border-gray-300">
+                      <SelectValue placeholder="Select School" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border shadow-lg z-50">
+                      <SelectItem value="all">All Schools</SelectItem>
+                      <SelectItem value="wellington-college">Wellington College</SelectItem>
+                      <SelectItem value="auckland-grammar">Auckland Grammar School</SelectItem>
+                      <SelectItem value="christchurch-boys">Christchurch Boys' High School</SelectItem>
+                      <SelectItem value="otago-boys">Otago Boys' High School</SelectItem>
+                      <SelectItem value="hamilton-boys">Hamilton Boys' High School</SelectItem>
+                      <SelectItem value="palmerston-north-boys">Palmerston North Boys' High School</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+              
+              {(selectedRegion || selectedSchool) && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedRegion("");
+                    setSelectedSchool("");
+                  }}
+                  className="text-gray-600 hover:text-gray-800"
+                >
+                  Clear Filters
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="container mx-auto px-6 py-8">
         {/* Key Statistics */}
@@ -381,14 +468,13 @@ const AnalyticsDashboard = () => {
               </div>
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-600">Interactive map of New Zealand showing regional cricket activity</p>
-              </div>
-            </div>
-          </CardContent>
+           <CardContent>
+             <div 
+               ref={mapRef}
+               className="h-64 rounded-lg border border-gray-200"
+               style={{ minHeight: '300px' }}
+             />
+           </CardContent>
         </Card>
 
         {/* Recent Sessions */}
