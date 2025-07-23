@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ArrowLeft, Save, MapPin, User, School, Users, Settings, Target, RefreshCw } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { ArrowLeft, Save, MapPin, User, School, Users, Settings, Target, RefreshCw, Heart, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { FormField } from "@/components/form/FormField";
 import { FormSection } from "@/components/form/FormSection";
@@ -37,6 +38,8 @@ const MobileForm = () => {
     sessionLength: "",
     teacherEngagement: "",
     sessionType: "",
+    studentEnjoymentLevel: "",
+    notes: "",
     geolocation: null as { lat: number; lng: number } | null
   });
 
@@ -144,6 +147,8 @@ const MobileForm = () => {
       sessionLength: "",
       teacherEngagement: "",
       sessionType: "",
+      studentEnjoymentLevel: "",
+      notes: "",
       geolocation: null as { lat: number; lng: number } | null
     });
     
@@ -157,25 +162,35 @@ const MobileForm = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-800/20 via-slate-700/10 to-slate-600/20">
       {/* Header */}
       <div className="bg-gradient-to-r from-slate-800 to-slate-700 text-white">
-        <div className="container mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+        <div className="container mx-auto px-4 lg:px-6 py-4 lg:py-6">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center space-x-3 lg:space-x-4 flex-1 min-w-0">
               <Button
                 variant="ghost"
                 onClick={() => navigate("/analytics")}
-                className="bg-slate-600 hover:bg-slate-500 text-white p-2"
+                className="bg-slate-600 hover:bg-slate-500 text-white p-2 flex-shrink-0"
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-4 h-4 lg:w-5 lg:h-5" />
               </Button>
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2 lg:space-x-3 min-w-0 flex-1">
                 <img 
                   src="/lovable-uploads/0cff761b-365d-4044-84fb-508cfc2d8022.png" 
                   alt="NZC Logo" 
-                  className="w-10 h-10 object-contain p-2 bg-white rounded-xl shadow-lg"
+                  className="w-8 h-8 lg:w-10 lg:h-10 object-fit object-center p-1 lg:p-2 bg-white rounded-xl shadow-lg flex-shrink-0"
                 />
-                <h1 className="text-xl font-bold">Session Data Entry</h1>
+                <h1 className="text-lg lg:text-xl font-bold truncate">Session Data Entry</h1>
               </div>
             </div>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={getGeolocation}
+              className="flex items-center gap-1 lg:gap-2 px-3 lg:px-4 py-2 border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-400 text-sm lg:text-base flex-shrink-0"
+            >
+              <MapPin className="w-4 h-4" />
+              <span className="hidden sm:inline">Tag Location</span>
+              <span className="sm:hidden">Tag</span>
+            </Button>
           </div>
         </div>
       </div>
@@ -395,19 +410,50 @@ const MobileForm = () => {
                 </FormField>
               </FormSection>
 
+              {/* Student Enjoyment Level */}
+              <FormSection title="Student Enjoyment Level" icon={<Heart className="w-5 h-5 text-pink-600" />}>
+                <FormField label="How much did students enjoy the session?" required>
+                  <RadioGroup
+                    value={formData.studentEnjoymentLevel}
+                    onValueChange={(value) => setFormData(prev => ({ ...prev, studentEnjoymentLevel: value }))}
+                    className="grid grid-cols-1 sm:grid-cols-5 gap-4"
+                  >
+                    {[
+                      { value: "very-low", label: "Very Low", desc: "1/5", color: "text-red-600" },
+                      { value: "low", label: "Low", desc: "2/5", color: "text-orange-600" },
+                      { value: "moderate", label: "Moderate", desc: "3/5", color: "text-yellow-600" },
+                      { value: "high", label: "High", desc: "4/5", color: "text-blue-600" },
+                      { value: "very-high", label: "Very High", desc: "5/5", color: "text-green-600" }
+                    ].map((option) => (
+                      <div key={option.value} className="flex items-center space-x-3 p-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                        <RadioGroupItem value={option.value} id={option.value} />
+                        <div className="flex flex-col">
+                          <Label htmlFor={option.value} className={`font-medium cursor-pointer ${option.color}`}>{option.label}</Label>
+                          <span className="text-sm text-gray-500">{option.desc}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </RadioGroup>
+                </FormField>
+              </FormSection>
+
+              {/* Notes */}
+              <FormSection title="Additional Notes" icon={<FileText className="w-5 h-5 text-indigo-600" />}>
+                <FormField label="Session Notes (Optional)">
+                  <Textarea
+                    value={formData.notes}
+                    onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
+                    placeholder="Add any additional comments about the session, challenges faced, highlights, or suggestions for improvement..."
+                    className="min-h-[120px] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 resize-none"
+                    rows={5}
+                  />
+                  <p className="text-sm text-gray-500 mt-2">Optional: Share any observations, feedback, or notes about the session</p>
+                </FormField>
+              </FormSection>
+
               {/* Actions */}
               <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-gray-200">
                 <div className="flex items-center gap-4">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={getGeolocation}
-                    className="flex items-center gap-2 h-12 px-6 border-gray-300 hover:border-blue-500 hover:text-blue-600"
-                  >
-                    <MapPin className="w-4 h-4" />
-                    <span>Tag Location</span>
-                  </Button>
-                  
                   <Button
                     type="button"
                     variant="outline"

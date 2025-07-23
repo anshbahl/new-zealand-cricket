@@ -202,7 +202,7 @@ const NationalDashboard = () => {
 
           <Card className="bg-white/95 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="text-blue-900">Regional Performance</CardTitle>
+              <CardTitle className="text-blue-900">Regional Enjoyment Level</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>

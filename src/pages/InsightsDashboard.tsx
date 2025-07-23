@@ -73,7 +73,7 @@ const InsightsDashboard = () => {
       impact: "Medium"
     },
     {
-      title: "Regional Performance Gap",
+      title: "Regional Enjoyment Level Gap",
       description: "Northern regions show 15% lower participation than southern",
       trend: "down",
       impact: "High"

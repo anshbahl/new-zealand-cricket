@@ -51,32 +51,33 @@ const LandingPage = () => {
       {/* Enhanced Header Section */}
       <div className="bg-gradient-to-r from-slate-800 to-slate-700 backdrop-blur-lg border-b border-slate-600/30 sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 lg:gap-0">
+            <div className="flex items-center space-x-3 lg:space-x-4 w-full lg:w-auto">
               <img 
                 src="/lovable-uploads/0cff761b-365d-4044-84fb-508cfc2d8022.png" 
                 alt="NZC Logo" 
-                className="w-14 h-14 object-contain p-2 bg-white rounded-2xl shadow-lg"
+                className="w-12 h-12 lg:w-14 lg:h-14 object-fit object-center p-2 bg-white rounded-2xl shadow-lg flex-shrink-0"
               />
-              <div>
-                <h1 className="text-3xl font-bold text-white">
+              <div className="min-w-0 flex-1">
+                <h1 className="text-xl lg:text-3xl font-bold text-white truncate">
                   NZC Participation Platform
                 </h1>
-                <p className="text-gray-300 text-sm font-medium">Empowering cricket activators nationwide</p>
+                <p className="text-gray-300 text-xs lg:text-sm font-medium">Empowering cricket activators nationwide</p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 lg:gap-4 w-full lg:w-auto justify-end">
               <Button 
                 onClick={() => navigate("/analytics")} 
-                className="bg-slate-700 hover:bg-slate-600 text-white shadow-lg transition-all duration-300 group border-0"
+                className="bg-slate-700 hover:bg-slate-600 text-white shadow-lg transition-all duration-300 group border-0 text-sm lg:text-base"
               >
-                <Eye className="w-4 h-4 mr-2 transition-transform group-hover:scale-110" />
-                Dashboard
+                <Eye className="w-4 h-4 mr-1 lg:mr-2 transition-transform group-hover:scale-110" />
+                <span className="hidden sm:inline">Dashboard</span>
+                <span className="sm:hidden">Dash</span>
                 <ArrowUpRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-all" />
               </Button>
               <Button 
                 onClick={handleLogout}
-                className="bg-slate-600 hover:bg-slate-500 text-white transition-all duration-300 w-10 h-10 p-0"
+                className="bg-slate-600 hover:bg-slate-500 text-white transition-all duration-300 w-10 h-10 p-0 flex-shrink-0"
               >
                 <LogOut className="w-4 h-4" />
               </Button>
@@ -127,11 +128,11 @@ const LandingPage = () => {
           ))}
         </div>
 
-        {/* Enhanced Quick Actions */}
-        <div className="mb-12 lg:mb-20">
-          <div className="text-center mb-8 lg:mb-12">
-            <h3 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 lg:mb-6">Quick Actions</h3>
-            <p className="text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto px-4">Choose your next step to streamline your cricket participation management</p>
+        {/* Enhanced Quick Actions - Mobile Optimized */}
+        <div className="mb-8 lg:mb-20">
+          <div className="text-center mb-6 lg:mb-12">
+            <h3 className="text-2xl lg:text-4xl font-bold text-foreground mb-3 lg:mb-6">Quick Actions</h3>
+            <p className="text-sm lg:text-lg text-muted-foreground max-w-2xl mx-auto px-4">Choose your next step to streamline your cricket participation management</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 max-w-4xl mx-auto">
             {quickActions.map((action, index) => (

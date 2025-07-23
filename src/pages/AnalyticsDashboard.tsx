@@ -126,36 +126,38 @@ const AnalyticsDashboard = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-slate-900 to-slate-700 text-white">
         <div className="container mx-auto px-6 py-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 lg:gap-0">
+            <div className="flex items-center space-x-3 lg:space-x-4 w-full lg:w-auto">
               <img 
                 src="/lovable-uploads/0cff761b-365d-4044-84fb-508cfc2d8022.png" 
                 alt="NZC Logo" 
-                className="w-12 h-12 object-contain p-2 bg-white rounded-xl shadow-lg"
+                className="w-12 h-12 lg:w-14 lg:h-14 object-fit object-center p-2 bg-white rounded-xl shadow-lg flex-shrink-0"
               />
-              <div>
-                <h1 className="text-2xl font-bold">NZ Cricket Participation Tracker</h1>
-                <p className="text-slate-300 mt-1">Welcome, {user?.displayName || user?.email?.split('@')[0] || 'User'}</p>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-lg lg:text-2xl font-bold truncate">NZ Cricket Participation Tracker</h1>
+                <p className="text-slate-300 mt-1 text-sm lg:text-base truncate">Welcome, {user?.displayName || user?.email?.split('@')[0] || 'User'}</p>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-2 lg:gap-3 w-full lg:w-auto justify-end flex-wrap">
               <Button 
                 onClick={() => navigate("/")}
-                className="bg-slate-600 hover:bg-slate-500 text-white px-4 py-3 h-auto"
+                className="bg-slate-600 hover:bg-slate-500 text-white px-3 lg:px-4 py-2 lg:py-3 h-auto text-sm lg:text-base"
               >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Landing
+                <ArrowLeft className="w-4 h-4 mr-1 lg:mr-2" />
+                <span className="hidden sm:inline">Back to Landing</span>
+                <span className="sm:hidden">Back</span>
               </Button>
               <Button 
                 onClick={() => navigate("/mobile-form")}
-                className="bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 h-auto font-semibold"
+                className="bg-slate-700 hover:bg-slate-600 text-white px-3 lg:px-6 py-2 lg:py-3 h-auto font-semibold text-sm lg:text-base"
               >
-                <Plus className="w-5 h-5 mr-2" />
-                Record New Session
+                <Plus className="w-4 h-4 lg:w-5 lg:h-5 mr-1 lg:mr-2" />
+                <span className="hidden sm:inline">Record New Session</span>
+                <span className="sm:hidden">Add</span>
               </Button>
               <Button 
                 onClick={handleLogout}
-                className="bg-slate-600 hover:bg-slate-500 text-white transition-all duration-300 w-10 h-10 p-0"
+                className="bg-slate-600 hover:bg-slate-500 text-white transition-all duration-300 w-10 h-10 p-0 flex-shrink-0"
               >
                 <LogOut className="w-4 h-4" />
               </Button>
@@ -164,22 +166,54 @@ const AnalyticsDashboard = () => {
         </div>
       </div>
 
-      {/* Navigation Tabs */}
+      {/* Navigation Tabs - Mobile Optimized */}
       <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-6">
-          <div className="flex space-x-8">
-            {['National', 'Regional', 'Local'].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setViewLevel(tab.toLowerCase())}
-                className={`py-4 px-2 text-sm font-medium border-b-2 transition-colors ${
-                  viewLevel === tab.toLowerCase()
-                    ? "border-blue-500 text-blue-600"
-                    : "border-transparent text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                {tab}
-              </button>
+        <div className="container mx-auto px-4 lg:px-6">
+          <div className="flex space-x-4 lg:space-x-8 overflow-x-auto">
+            {[
+              { key: 'national', label: 'National' },
+              { key: 'regional', label: 'Regional', hasDropdown: true },
+              { key: 'local', label: 'Local', hasDropdown: true }
+            ].map((tab) => (
+              <div key={tab.key} className="flex items-center gap-2 flex-shrink-0">
+                <button
+                  onClick={() => setViewLevel(tab.key)}
+                  className={`py-3 lg:py-4 px-2 lg:px-4 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
+                    viewLevel === tab.key
+                      ? "border-blue-500 text-blue-600"
+                      : "border-transparent text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+                {tab.hasDropdown && (
+                  <Select>
+                    <SelectTrigger className="w-32 lg:w-40 h-8 text-xs">
+                      <SelectValue placeholder={tab.key === 'regional' ? 'Select Region' : 'Select School'} />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border shadow-lg z-50">
+                      {tab.key === 'regional' ? (
+                        <>
+                          <SelectItem value="wellington">Wellington</SelectItem>
+                          <SelectItem value="auckland">Auckland</SelectItem>
+                          <SelectItem value="canterbury">Canterbury</SelectItem>
+                          <SelectItem value="otago">Otago</SelectItem>
+                          <SelectItem value="waikato">Waikato</SelectItem>
+                          <SelectItem value="northern-districts">Northern Districts</SelectItem>
+                        </>
+                      ) : (
+                        <>
+                          <SelectItem value="wellington-college">Wellington College</SelectItem>
+                          <SelectItem value="auckland-grammar">Auckland Grammar</SelectItem>
+                          <SelectItem value="christchurch-boys">Christchurch Boys' High</SelectItem>
+                          <SelectItem value="otago-boys">Otago Boys' High</SelectItem>
+                          <SelectItem value="hamilton-boys">Hamilton Boys' High</SelectItem>
+                        </>
+                      )}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
             ))}
           </div>
         </div>
@@ -294,7 +328,7 @@ const AnalyticsDashboard = () => {
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-semibold">Regional Performance</CardTitle>
+                <CardTitle className="text-lg font-semibold">Regional Enjoyment Level</CardTitle>
                 <Button variant="ghost" size="sm">
                   View All <ArrowRight className="w-4 h-4 ml-1" />
                 </Button>
